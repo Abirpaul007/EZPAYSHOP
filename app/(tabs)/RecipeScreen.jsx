@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Image } from 'react-native';
 import axios from 'axios';
 
@@ -52,27 +52,33 @@ export default function RecipeScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.heading}>Explore Recipes</Text>
       {recipes.map((recipe, index) => (
-        <View key={index} style={styles.recipeContainer}>
+        <View key={index} style={styles.recipeCard}>
           <TouchableOpacity
             onPress={() => {
               setSelected(recipe.name);
               fetchIngredients(recipe.name);
             }}
-            style={styles.button}
+            style={styles.touchWrapper}
           >
             <Image source={{ uri: recipe.image }} style={styles.image} />
-            <Text style={styles.recipeText}>{recipe.name}</Text>
+            <Text style={styles.recipeTitle}>{recipe.name}</Text>
           </TouchableOpacity>
 
-          {selected === recipe.name && ingredients.map((item, idx) => (
-            <View key={idx} style={styles.ingredientBox}>
-              <Text>{item.name}</Text>
-              <Text>Section: {item.section}</Text>
-              <Text>Rack: {item.rack}</Text>
-              <Text>Price: ₹{item.price}</Text>
+          {selected === recipe.name && (
+            <View style={styles.ingredientsSection}>
+              <Text style={styles.ingredientHeader}>Ingredients</Text>
+              {ingredients.map((item, idx) => (
+                <View key={idx} style={styles.ingredientBox}>
+                  <Text style={styles.ingredientText}>🧂 {item.name}</Text>
+                  <Text style={styles.detailText}>Section: {item.section}</Text>
+                  <Text style={styles.detailText}>Rack: {item.rack}</Text>
+                  <Text style={styles.detailText}>Price: ₹{item.price}</Text>
+                </View>
+              ))}
             </View>
-          ))}
+          )}
         </View>
       ))}
     </ScrollView>
@@ -80,25 +86,67 @@ export default function RecipeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 16 ,backgroundColor: '#f6f9fe',},
-  recipeContainer: { marginBottom: 20 },
-  button: { 
-    backgroundColor: '#fff0fF', 
-    padding: 12, 
-    borderRadius: 6, 
+  container: {
+    padding: 16,
+    backgroundColor: '#f6f9fe',
+    paddingBottom: 40,
+  },
+  heading: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 20,
+    textAlign: 'center',
+    color: '#2d3436',
+  },
+  recipeCard: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  touchWrapper: {
     alignItems: 'center',
+    padding: 12,
   },
   image: {
     width: '100%',
     height: 180,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  recipeTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#34495e',
+    textAlign: 'center',
+  },
+  ingredientsSection: {
+    paddingHorizontal: 16,
+    paddingBottom: 12,
+  },
+  ingredientHeader: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#2c3e50',
+    marginVertical: 10,
+  },
+  ingredientBox: {
+    backgroundColor: '#ecf0f1',
     borderRadius: 8,
+    padding: 10,
     marginBottom: 8,
   },
-  recipeText: { fontWeight: 'bold', fontSize: 16, textAlign: 'center' },
-  ingredientBox: {
-    backgroundColor: '#eaeaea',
-    padding: 10,
-    marginVertical: 4,
-    borderRadius: 6,
+  ingredientText: {
+    fontWeight: '600',
+    fontSize: 15,
+    marginBottom: 2,
+  },
+  detailText: {
+    fontSize: 13,
+    color: '#555',
   },
 });
