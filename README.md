@@ -14,7 +14,7 @@ EZPAYSHOP is a cutting-edge mobile application for **cashier-less unmanned retai
 ## 🛠️ Tech Stack
 
 ### Frontend (React Native)
-- Expo, React Navigation
+- Expo(SDK 52), React Navigation 
 - React Native Camera for scanning
 - AsyncStorage for local caching
 
@@ -95,7 +95,7 @@ EZPAYSHOP/
 2. **Install server dependencies**
    ```bash
    npm install
-   npm run dev
+   npx expo start  
 3. **Configure environment variables**
    ```bash
    MONGODB_URI=your_mongo_connection_string
